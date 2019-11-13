@@ -11,9 +11,13 @@ const config: ClientConfig = {
     password: 'docker',
     port: 5432,
 };
-const DependencyInjectionContainer = new Container();
+const InjectionContainer = new Container();
 
-DependencyInjectionContainer.bind<Client>(TYPES.Client).toConstantValue(new Client(config));
-DependencyInjectionContainer.bind<UserService>(TYPES.UserService).to(UserServiceImpl);
+InjectionContainer
+    .bind<Client>(TYPES.Client)
+    .toConstantValue(new Client(config));
+InjectionContainer
+    .bind<UserService>(TYPES.UserService)
+    .to(UserServiceImpl);
 
-export default DependencyInjectionContainer;
+export default InjectionContainer;

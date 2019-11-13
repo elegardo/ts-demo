@@ -13,7 +13,8 @@ module.exports = {
         sourceType: 'module', // Allows for the use of imports
     },
     rules: {
-        '@typescript-eslint/no-explicit-any': 'off',
-        //        'max-len': ['warn', { code: 80, ignoreUrls: true }],
+        '@typescript-eslint/no-explicit-any': 'error',
+        'no-multi-spaces': ['error', { ignoreEOLComments: true }],
+        'max-len': ['error', { code: 80, ignoreUrls: true }],
     },
 };
