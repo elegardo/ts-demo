@@ -1,10 +1,16 @@
+import 'reflect-metadata';
 import fastify from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'http';
 import usersRoutes from './routes/users';
+import DependencyInjectionContainer from './inversify.config';
+import { UserService } from './services/UserService';
+import { TYPES } from './inversify.types';
 
 const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify();
 
-server.register(usersRoutes);
+const service: UserService = DependencyInjectionContainer.get<UserService>(TYPES.UserService);
+
+server.register(usersRoutes, service);
 
 const start = async () => {
     try {
