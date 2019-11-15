@@ -17,4 +17,8 @@ export class UserServiceImpl implements UserService {
     async obtainAllUsers(): Promise<User[]> {
         return this.repository.findAll();
     }
+
+    async getUserById(id: number): Promise<User> {
+        return this.repository.findBy(id);
+    }
 }

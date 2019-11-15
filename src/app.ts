@@ -2,7 +2,7 @@
 import 'reflect-metadata';
 import fastify from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'http';
-import usersRoutes from './routes/users.route';
+import userRoutes from './routes/user.routes';
 import DIContainer from './inversify.config';
 import { UserService } from './services/UserService';
 import { TYPES } from './inversify.types';
@@ -22,7 +22,7 @@ const service: UserService = DIContainer.get<UserService>(TYPES.UserService);
 const init = () => {
     const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({ logger: false });
     server.setSchemaCompiler(schema => ajv.compile(schema));
-    server.register(usersRoutes, service);
+    server.register(userRoutes, service);
     return server;
 };
 

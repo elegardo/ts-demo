@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { injectable, inject } from 'inversify';
 import { UserEntity } from '../entity/UserEntity';
 import { UserRepository } from './UserRepository';
@@ -18,6 +19,18 @@ export class UserRepositoryImpl implements UserRepository {
             .query('select * from users')
             .then(response => {
                 return response.rows;
+            })
+            .catch(error => {
+                throw error;
+            });
+        return queryResult;
+    }
+
+    async findBy(id: number): Promise<UserEntity> {
+        const queryResult = this.client
+            .query('select * from users where id = $1', [id])
+            .then(response => {
+                return response.rows[0];
             })
             .catch(error => {
                 throw error;

@@ -4,7 +4,7 @@ import fp from 'fastify-plugin';
 import { UserService } from '../services/UserService';
 import { userSchema } from '../schemas/users.schema';
 
-const schema = {
+const schemaUsers = {
     schema: {
         response: {
             200: {
@@ -15,12 +15,32 @@ const schema = {
     },
 };
 
+const schemaUser = {
+    schema: {
+        response: {
+            200: userSchema,
+        },
+    },
+};
+
 export default fp(async (server: FastifyInstance, service: UserService, next: Function) => {
     // Declare a route
 
-    server.get('/users', schema, (request, reply) => {
+    server.get('/users', schemaUsers, (request, reply) => {
         service
             .obtainAllUsers()
+            .then(res => {
+                console.log(res);
+                reply.send(res);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+
+    server.get('/users/:id', schemaUser, (request, reply) => {
+        service
+            .getUserById(request.params.id)
             .then(res => {
                 console.log(res);
                 reply.send(res);
