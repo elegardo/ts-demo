@@ -2,7 +2,7 @@
 import { injectable, inject } from 'inversify';
 import { UserEntity } from '../entity/UserEntity';
 import { UserRepository } from './UserRepository';
-import { TYPES } from '../inversify.types';
+import { TYPES } from '../../inversify.types';
 import { Client } from 'pg';
 
 @injectable()

@@ -2,10 +2,10 @@
 import { Container } from 'inversify';
 import { Client, ClientConfig } from 'pg';
 import { TYPES } from './inversify.types';
-import { UserRepository } from './repository/UserRepository';
-import { UserRepositoryImpl } from './repository/UserRepositoryImpl';
-import { UserServiceImpl } from './services/UserServiceImpl';
-import { UserService } from './services/UserService';
+import { UserRepository } from './data-access/repository/UserRepository';
+import { UserRepositoryImpl } from './data-access/repository/UserRepositoryImpl';
+import { UserServiceImpl } from './business-logic/services/UserServiceImpl';
+import { UserService } from './business-logic/services/UserService';
 import * as dotenv from 'dotenv';
 
 const result = dotenv.config();

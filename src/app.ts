@@ -2,9 +2,9 @@
 import 'reflect-metadata';
 import fastify from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'http';
-import userRoutes from './routes/user.routes';
+import userRoutes from './api-layer/routes/user.routes';
 import DIContainer from './inversify.config';
-import { UserService } from './services/UserService';
+import { UserService } from './business-logic/services/UserService';
 import { TYPES } from './inversify.types';
 import Ajv from 'ajv';
 

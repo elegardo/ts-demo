@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
-import { UserService } from '../services/UserService';
 import { userSchema } from '../schemas/users.schema';
 
 const schemaUsers = {
@@ -23,7 +22,7 @@ const schemaUser = {
     },
 };
 
-export default fp(async (server: FastifyInstance, service: UserService, next: Function) => {
+export default fp(async (server, service, next) => {
     // Declare a route
 
     server.get('/users', schemaUsers, (request, reply) => {
