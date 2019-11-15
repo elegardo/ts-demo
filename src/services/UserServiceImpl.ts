@@ -1,14 +1,20 @@
-import "reflect-metadata";
-import { injectable } from 'inversify';
+/* eslint-disable */
+import 'reflect-metadata';
+import { injectable, inject } from 'inversify';
+import { TYPES } from '../inversify.types';
 import { UserService } from './UserService';
+import { UserRepository } from '../repository/UserRepository';
 import { User } from '../domain/User';
 
 @injectable()
 export class UserServiceImpl implements UserService {
+    protected repository: UserRepository;
 
-    async obtainAllUsers(): Promise<User[]> {
-        const users: User[] = [{ id: 1, name: '', email: '' }];
-        return Promise.resolve(users);
+    constructor(@inject(TYPES.UserRepository) repository: UserRepository) {
+        this.repository = repository;
     }
 
+    async obtainAllUsers(): Promise<User[]> {
+        return this.repository.findAll();
+    }
 }

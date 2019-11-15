@@ -1,12 +1,12 @@
 module.exports = {
     parser: '@typescript-eslint/parser', // Specifies the ESLint parser
-    plugins: ['@typescript-eslint'],
+    plugins: ['@typescript-eslint', 'jest'],
     extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended',
-        'prettier',
         'prettier/@typescript-eslint',
+        'plugin:prettier/recommended',
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:jest/recommended',
     ],
     parserOptions: {
         ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
@@ -15,6 +15,9 @@ module.exports = {
     rules: {
         '@typescript-eslint/no-explicit-any': 'error',
         'no-multi-spaces': ['error', { ignoreEOLComments: true }],
-        'max-len': ['error', { code: 80, ignoreUrls: true }],
+        'max-len': ['warn', { code: 80, ignoreUrls: true, ignoreTrailingComments: true }],
+    },
+    env: {
+        'jest/globals': true,
     },
 };

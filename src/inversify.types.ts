@@ -1,4 +1,5 @@
 export const TYPES = {
-    UserService: 'UserService',
     Client: 'Client',
+    UserRepository: 'UserRepository',
+    UserService: 'UserService',
 };
