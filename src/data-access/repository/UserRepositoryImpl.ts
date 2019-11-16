@@ -2,6 +2,7 @@
 import { injectable, inject } from 'inversify';
 import { UserEntity } from '../entity/UserEntity';
 import { UserRepository } from './UserRepository';
+import { NotFoundError } from '../error/NotFoundError';
 import { TYPES } from '../../inversify.types';
 import { Client } from 'pg';
 
@@ -11,11 +12,10 @@ export class UserRepositoryImpl implements UserRepository {
 
     constructor(@inject(TYPES.Client) client: Client) {
         this.client = client;
-        this.client.connect();
     }
 
     async findAll(): Promise<UserEntity[]> {
-        const queryResult = this.client
+        return this.client
             .query('select * from users')
             .then(response => {
                 return response.rows;
@@ -23,18 +23,19 @@ export class UserRepositoryImpl implements UserRepository {
             .catch(error => {
                 throw error;
             });
-        return queryResult;
     }
 
     async findBy(id: number): Promise<UserEntity> {
-        const queryResult = this.client
+        return this.client
             .query('select * from users where id = $1', [id])
             .then(response => {
+                if (!response.rows[0]) {
+                    throw new NotFoundError('Users not exist');
+                }
                 return response.rows[0];
             })
             .catch(error => {
                 throw error;
             });
-        return queryResult;
     }
 }

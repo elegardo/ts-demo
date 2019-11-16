@@ -8,6 +8,10 @@ import { UserService } from './business-logic/services/UserService';
 import { TYPES } from './inversify.types';
 import Ajv from 'ajv';
 
+// error handler
+const handleError = require('./api-layer/handle.error');
+
+// schema options
 const ajv = new Ajv({
     removeAdditional: false,
     useDefaults: true,
@@ -22,7 +26,9 @@ const service: UserService = DIContainer.get<UserService>(TYPES.UserService);
 const init = () => {
     const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({ logger: false });
     server.setSchemaCompiler(schema => ajv.compile(schema));
+    server.setErrorHandler(handleError);
     server.register(userRoutes, service);
+
     return server;
 };
 

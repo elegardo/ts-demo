@@ -15,10 +15,24 @@ export class UserServiceImpl implements UserService {
     }
 
     async obtainAllUsers(): Promise<User[]> {
-        return this.repository.findAll();
+        return this.repository
+            .findAll()
+            .then(res => {
+                return res;
+            })
+            .catch(error => {
+                throw error;
+            });
     }
 
     async getUserById(id: number): Promise<User> {
-        return this.repository.findBy(id);
+        return this.repository
+            .findBy(id)
+            .then(res => {
+                return res;
+            })
+            .catch(error => {
+                throw error;
+            });
     }
 }

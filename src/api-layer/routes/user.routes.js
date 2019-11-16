@@ -33,7 +33,7 @@ export default fp(async (server, service, next) => {
                 reply.send(res);
             })
             .catch(error => {
-                console.error(error);
+                reply.send(error);
             });
     });
 
@@ -45,7 +45,7 @@ export default fp(async (server, service, next) => {
                 reply.send(res);
             })
             .catch(error => {
-                console.error(error);
+                reply.send(error);
             });
     });
 
