@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable prettier/prettier */
 /* eslint-disable no-undef */
+
 function serviceError(name, description) {
     return { name: name, description: description };
 }

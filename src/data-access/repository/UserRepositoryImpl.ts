@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { injectable, inject } from 'inversify';
-import { UserEntity } from '../entity/UserEntity';
+import { UserModel } from '../model/UserModel';
 import { UserRepository } from './UserRepository';
 import { NotFoundError } from '../error/NotFoundError';
 import { Client } from 'pg';
@@ -14,7 +14,7 @@ export class UserRepositoryImpl implements UserRepository {
         this.client = client;
     }
 
-    async findAll(): Promise<UserEntity[]> {
+    async findAll(): Promise<UserModel[]> {
         return this.client
             .query('select * from users')
             .then(response => {
@@ -25,7 +25,7 @@ export class UserRepositoryImpl implements UserRepository {
             });
     }
 
-    async findBy(id: number): Promise<UserEntity> {
+    async findBy(id: number): Promise<UserModel> {
         return this.client
             .query('select * from users where id = $1', [id])
             .then(response => {

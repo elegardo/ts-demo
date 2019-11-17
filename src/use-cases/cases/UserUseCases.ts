@@ -1,6 +1,6 @@
-import { User } from '../model/User';
+import { User } from '../entity/User';
 
-export interface UserService {
+export interface UserUseCases {
     obtainAllUsers(): Promise<User[]>;
 
     getUserById(id: number): Promise<User>;

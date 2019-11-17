@@ -5,7 +5,7 @@ import { Server, IncomingMessage, ServerResponse } from 'http';
 import { DIContainer } from './inversify.config';
 import { TYPES } from './inversify.types';
 import { DatabaseClient, Logger, HandleError, UserRoutes } from './api-layer';
-import { UserService } from './business-logic/';
+import { UserUseCases } from './use-cases';
 import Ajv from 'ajv';
 import * as dotenv from 'dotenv';
 
@@ -42,9 +42,9 @@ const init = () => {
 
     // initialize dependency injection
     const container = DIContainer(databaseClient.client, logger.log);
-    const service: UserService = container.get<UserService>(TYPES.UserService);
+    const userUseCases: UserUseCases = container.get<UserUseCases>(TYPES.UserUseCase);
 
-    server.register(UserRoutes, service);
+    server.register(UserRoutes, userUseCases);
 
     return server;
 };

@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import { injectable, inject } from 'inversify';
-import { UserService } from './UserService';
-import { UserRepository } from '../../data-access/';
-import { User } from '../model/User';
+import { UserUseCases } from './UserUseCases';
+import { UserRepository } from '../../data-access';
+import { User } from '../entity/User';
 import { TYPES } from '../../inversify.types';
 
 @injectable()
-export class UserServiceImpl implements UserService {
+export class UserUseCasesImpl implements UserUseCases {
     protected repository: UserRepository;
 
     constructor(@inject(TYPES.UserRepository) repository: UserRepository) {

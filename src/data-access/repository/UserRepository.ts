@@ -1,7 +1,7 @@
-import { UserEntity } from '../entity/UserEntity';
+import { UserModel } from '../model/UserModel';
 
 export interface UserRepository {
-    findAll(): Promise<UserEntity[]>;
+    findAll(): Promise<UserModel[]>;
 
-    findBy(id: number): Promise<UserEntity>;
+    findBy(id: number): Promise<UserModel>;
 }
