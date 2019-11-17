@@ -2,14 +2,10 @@
 import 'reflect-metadata';
 import fastify from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'http';
-import userRoutes from './api-layer/routes/user.routes';
-import DIContainer from './inversify.config';
-import { UserService } from './business-logic/services/UserService';
-import { TYPES } from './inversify.types';
+import { DIContainer, ServiceIdentifier } from './inversify.config';
+import { DBClient, Logger, HandleError, UserRoutes } from './api-layer';
+import { UserService } from './business-logic/';
 import Ajv from 'ajv';
-
-// error handler
-const handleError = require('./api-layer/handle.error');
 
 // schema options
 const ajv = new Ajv({
@@ -20,21 +16,18 @@ const ajv = new Ajv({
     allErrors: true,
 });
 
-// initialize dependency injection
-const service: UserService = DIContainer.get<UserService>(TYPES.UserService);
-
-const init = () => {
-    const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({ logger: false });
+const init = (service: UserService) => {
+    const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({ logger: Logger });
     server.setSchemaCompiler(schema => ajv.compile(schema));
-    server.setErrorHandler(handleError);
-    server.register(userRoutes, service);
+    server.setErrorHandler(HandleError);
+    server.register(UserRoutes, service);
 
     return server;
 };
 
-const start = async () => {
+const start = async (service: UserService) => {
     try {
-        const server = init();
+        const server = init(service);
         await server.listen(3000, '0.0.0.0');
     } catch (err) {
         console.log(err);
@@ -42,4 +35,15 @@ const start = async () => {
     }
 };
 
-start();
+DBClient.connect()
+    .then(() => {
+        console.log('Connected!');
+        // initialize dependency injection
+        const container = DIContainer(DBClient);
+        const service: UserService = container.get<UserService>(ServiceIdentifier.UserService);
+        start(service);
+    })
+    .catch(error => {
+        console.error(error.message);
+        process.exit(1);
+    });

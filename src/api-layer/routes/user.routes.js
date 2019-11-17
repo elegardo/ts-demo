@@ -29,7 +29,7 @@ export default fp(async (server, service, next) => {
         service
             .obtainAllUsers()
             .then(res => {
-                console.log(res);
+                request.log.info(res);
                 reply.send(res);
             })
             .catch(error => {
@@ -41,7 +41,7 @@ export default fp(async (server, service, next) => {
         service
             .getUserById(request.params.id)
             .then(res => {
-                console.log(res);
+                request.log.info(res);
                 reply.send(res);
             })
             .catch(error => {

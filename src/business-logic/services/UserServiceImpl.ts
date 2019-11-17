@@ -1,16 +1,15 @@
 /* eslint-disable */
 import 'reflect-metadata';
 import { injectable, inject } from 'inversify';
-import { TYPES } from '../../inversify.types';
 import { UserService } from './UserService';
-import { UserRepository } from '../../data-access/repository/UserRepository';
+import { UserRepository } from '../../data-access/';
 import { User } from '../model/User';
 
 @injectable()
 export class UserServiceImpl implements UserService {
     protected repository: UserRepository;
 
-    constructor(@inject(TYPES.UserRepository) repository: UserRepository) {
+    constructor(@inject('UserRepository') repository: UserRepository) {
         this.repository = repository;
     }
 
