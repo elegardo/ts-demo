@@ -1,5 +1,4 @@
 /* eslint-disable */
-import { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
 import { userSchema } from '../schemas/users.schema';
 
