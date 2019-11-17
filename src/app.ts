@@ -2,32 +2,56 @@
 import 'reflect-metadata';
 import fastify from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'http';
-import { DIContainer, ServiceIdentifier } from './inversify.config';
-import { DBClient, Logger, HandleError, UserRoutes } from './api-layer';
+import { DIContainer } from './inversify.config';
+import { TYPES } from './inversify.types';
+import { DatabaseClient, Logger, HandleError, UserRoutes } from './api-layer';
 import { UserService } from './business-logic/';
 import Ajv from 'ajv';
+import * as dotenv from 'dotenv';
 
-// schema options
-const ajv = new Ajv({
-    removeAdditional: false,
-    useDefaults: true,
-    coerceTypes: false,
-    format: 'full',
-    allErrors: true,
-});
+const result = dotenv.config();
 
-const init = (service: UserService) => {
-    const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({ logger: Logger });
+if (result.error) {
+    throw result.error;
+}
+
+const environmentVariables = (): Map<string, string | undefined> => {
+    const mapEnv: Map<string, string | undefined> = new Map();
+    mapEnv.set('LOG_LEVEL', process.env.LOG_LEVEL);
+    mapEnv.set('DB_USER', process.env.DB_USER);
+    mapEnv.set('DB_HOST', process.env.DB_HOST);
+    mapEnv.set('DB_DATABASE', process.env.DB_DATABASE);
+    mapEnv.set('DB_PASSWORD', process.env.DB_PASSWORD);
+    mapEnv.set('DB_PORT', process.env.DB_PORT);
+
+    return mapEnv;
+};
+
+const init = () => {
+    // schema options
+    const ajv = new Ajv({
+        removeAdditional: false,
+        useDefaults: true,
+        coerceTypes: false,
+        format: 'full',
+        allErrors: true,
+    });
+    const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({ logger: logger.log });
     server.setSchemaCompiler(schema => ajv.compile(schema));
     server.setErrorHandler(HandleError);
+
+    // initialize dependency injection
+    const container = DIContainer(databaseClient.client, logger.log);
+    const service: UserService = container.get<UserService>(TYPES.UserService);
+
     server.register(UserRoutes, service);
 
     return server;
 };
 
-const start = async (service: UserService) => {
+const start = async () => {
     try {
-        const server = init(service);
+        const server = init();
         await server.listen(3000, '0.0.0.0');
     } catch (err) {
         console.log(err);
@@ -35,13 +59,15 @@ const start = async (service: UserService) => {
     }
 };
 
-DBClient.connect()
+const mapEnv: Map<string, string | undefined> = environmentVariables();
+const logger: Logger = new Logger(mapEnv);
+const databaseClient: DatabaseClient = new DatabaseClient(mapEnv);
+
+databaseClient.client
+    .connect()
     .then(() => {
         console.log('Connected!');
-        // initialize dependency injection
-        const container = DIContainer(DBClient);
-        const service: UserService = container.get<UserService>(ServiceIdentifier.UserService);
-        start(service);
+        start();
     })
     .catch(error => {
         console.error(error.message);

@@ -4,12 +4,13 @@ import { UserEntity } from '../entity/UserEntity';
 import { UserRepository } from './UserRepository';
 import { NotFoundError } from '../error/NotFoundError';
 import { Client } from 'pg';
+import { TYPES } from '../../inversify.types';
 
 @injectable()
 export class UserRepositoryImpl implements UserRepository {
     protected client: Client;
 
-    constructor(@inject('Client') client: Client) {
+    constructor(@inject(TYPES.Client) client: Client) {
         this.client = client;
     }
 

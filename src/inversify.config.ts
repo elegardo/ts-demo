@@ -1,24 +1,19 @@
 import { Container } from 'inversify';
 import { Client } from 'pg';
+import { Logger } from 'pino';
 import { UserRepository } from './data-access/repository/UserRepository';
 import { UserRepositoryImpl } from './data-access/repository/UserRepositoryImpl';
 import { UserServiceImpl } from './business-logic/services/UserServiceImpl';
 import { UserService } from './business-logic/services/UserService';
+import { TYPES } from './inversify.types';
 
-const ServiceIdentifier = {
-    Client: 'Client',
-    UserRepository: 'UserRepository',
-    UserService: 'UserService',
-};
-
-const DIContainer = (DBClient: Client): Container => {
+export const DIContainer = (client: Client, logger: Logger): Container => {
     const DIContainer = new Container();
 
-    DIContainer.bind<Client>(ServiceIdentifier.Client).toConstantValue(DBClient);
-    DIContainer.bind<UserRepository>(ServiceIdentifier.UserRepository).to(UserRepositoryImpl);
-    DIContainer.bind<UserService>(ServiceIdentifier.UserService).to(UserServiceImpl);
+    DIContainer.bind<Client>(TYPES.Client).toConstantValue(client);
+    DIContainer.bind<Logger>(TYPES.Logger).toConstantValue(logger);
+    DIContainer.bind<UserRepository>(TYPES.UserRepository).to(UserRepositoryImpl);
+    DIContainer.bind<UserService>(TYPES.UserService).to(UserServiceImpl);
 
     return DIContainer;
 };
-
-export { DIContainer, ServiceIdentifier };

@@ -1,6 +1,6 @@
-import DBClient from './utils/DBClient';
+import DatabaseClient from './utils/DatabaseClient';
 import { Logger } from './utils/Logger';
 import HandleError from './handle.error';
 import UserRoutes from './routes/user.routes';
 
-export { DBClient, Logger, HandleError, UserRoutes };
+export { DatabaseClient, Logger, HandleError, UserRoutes };
