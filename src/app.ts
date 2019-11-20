@@ -10,10 +10,11 @@ import { GetUserById } from './use-cases';
 import Ajv from 'ajv';
 import * as dotenv from 'dotenv';
 
-const result = dotenv.config();
-
-if (result.error) {
-    throw result.error;
+if (process.env.NODE_ENV === 'dev') {
+    const result = dotenv.config();
+    if (result.error) {
+        throw result.error;
+    }
 }
 
 const environmentVariables = (): Map<string, string | undefined> => {
@@ -27,6 +28,10 @@ const environmentVariables = (): Map<string, string | undefined> => {
 
     return mapEnv;
 };
+
+const mapEnv: Map<string, string | undefined> = environmentVariables();
+const logger: Logger = new Logger(mapEnv);
+const databaseClient: DatabaseClient = new DatabaseClient(mapEnv);
 
 const init = () => {
     // schema options
@@ -62,10 +67,6 @@ const start = async () => {
         process.exit(1);
     }
 };
-
-const mapEnv: Map<string, string | undefined> = environmentVariables();
-const logger: Logger = new Logger(mapEnv);
-const databaseClient: DatabaseClient = new DatabaseClient(mapEnv);
 
 databaseClient.client
     .connect()

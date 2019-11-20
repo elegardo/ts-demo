@@ -4,8 +4,8 @@
     "description": "",
     "main": "app.ts",
     "scripts": {
-        "start": "node src/app.ts",
-        "dev": "nodemon",
+        "start": "ts-node src/app.ts",
+        "dev": "NODE_ENV=dev nodemon",
         "lint": "tsc --noEmit && eslint '*/**/*.{js,ts}' --quiet --fix",
         "test": "jest --coverage"
     },
