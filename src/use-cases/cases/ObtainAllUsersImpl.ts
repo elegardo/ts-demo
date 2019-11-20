@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import { injectable, inject } from 'inversify';
-import { UserUseCases } from './UserUseCases';
+import { ObtainAllUsers } from './ObtainAllUsers';
 import { UserRepository } from '../../data-access';
 import { User } from '../entity/User';
 import { TYPES } from '../../inversify.types';
 
 @injectable()
-export class UserUseCasesImpl implements UserUseCases {
+export class ObtainAllUsersImpl implements ObtainAllUsers {
     protected repository: UserRepository;
 
     constructor(@inject(TYPES.UserRepository) repository: UserRepository) {
@@ -16,17 +16,6 @@ export class UserUseCasesImpl implements UserUseCases {
     async obtainAllUsers(): Promise<User[]> {
         return this.repository
             .findAll()
-            .then(res => {
-                return res;
-            })
-            .catch(error => {
-                throw error;
-            });
-    }
-
-    async getUserById(id: number): Promise<User> {
-        return this.repository
-            .findBy(id)
             .then(res => {
                 return res;
             })

@@ -1,6 +1,7 @@
 import DatabaseClient from './utils/DatabaseClient';
 import { Logger } from './utils/Logger';
-import HandleError from './utils/handle.error';
-import UserRoutes from './routes/user.routes';
+import handleError from './utils/handleError';
+import getUser from './routes/getUser';
+import getUserById from './routes/getUserById';
 
-export { DatabaseClient, Logger, HandleError, UserRoutes };
+export { DatabaseClient, Logger, handleError, getUser, getUserById };

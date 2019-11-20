@@ -1,3 +1,4 @@
-import { UserUseCases } from './cases/UserUseCases';
+import { ObtainAllUsers } from './cases/ObtainAllUsers';
+import { GetUserById } from './cases/GetUserById';
 
-export { UserUseCases };
+export { ObtainAllUsers, GetUserById };

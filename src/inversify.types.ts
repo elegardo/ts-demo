@@ -1,6 +1,7 @@
 export const TYPES = {
     Client: 'Client',
     UserRepository: 'UserRepository',
-    UserUseCase: 'UserUseCase',
+    ObtainAllUsers: 'ObtainAllUsers',
+    GetUserById: 'GetUserById',
     Logger: 'Logger',
 };

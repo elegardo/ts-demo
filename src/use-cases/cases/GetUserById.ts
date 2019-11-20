@@ -1,7 +1,5 @@
 import { User } from '../entity/User';
 
-export interface UserUseCases {
-    obtainAllUsers(): Promise<User[]>;
-
+export interface GetUserById {
     getUserById(id: number): Promise<User>;
 }
