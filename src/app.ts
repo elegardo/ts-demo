@@ -30,6 +30,7 @@ const environmentVariables = (): Map<string, string | undefined> => {
 };
 
 const mapEnv: Map<string, string | undefined> = environmentVariables();
+
 const logger: Logger = new Logger(mapEnv);
 const databaseClient: DatabaseClient = new DatabaseClient(mapEnv);
 
@@ -42,6 +43,8 @@ const init = () => {
         format: 'full',
         allErrors: true,
     });
+
+    //create server fastify
     const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({ logger: logger.log });
     server.setSchemaCompiler(schema => ajv.compile(schema));
     server.setErrorHandler(handleError);
