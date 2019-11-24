@@ -6,9 +6,9 @@ function serviceError(name, description) {
 }
 
 module.exports = async (error, req, reply) => {
-    if (error.name === 'NotFoundError') {
+    if (error.constructor.name === 'NotFoundError') {
         reply.status(404);
-        reply.send(serviceError('NotFoundError', error.message));
+        reply.send(serviceError('NotFound', error.message));
     } else {
         reply.status(500);
         reply.send(serviceError('ServiceError', error.message));

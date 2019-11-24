@@ -6,6 +6,7 @@ import { ObtainAllUsersImpl } from './cases/ObtainAllUsersImpl';
 import { GetUserById } from './cases/GetUserById';
 import { GetUserByIdImpl } from './cases/GetUserByIdImpl';
 import { UserRepository } from '../dataAccess';
+import { Logger } from '../utilities';
 
 @injectable()
 class A extends ObtainAllUsersImpl {
@@ -16,8 +17,8 @@ class A extends ObtainAllUsersImpl {
 
 @injectable()
 class B extends GetUserByIdImpl {
-    constructor(@inject(TYPES.UserRepository) repository: UserRepository) {
-        super(repository);
+    constructor(@inject(TYPES.Logger) logger: Logger, @inject(TYPES.UserRepository) repository: UserRepository) {
+        super(logger, repository);
     }
 }
 
