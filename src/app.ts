@@ -2,11 +2,10 @@
 import 'reflect-metadata';
 import fastify from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'http';
-import { DIContainer } from './inversify.config';
+import { appContainer } from './inversify.config';
 import { TYPES } from './inversify.types';
 import { DatabaseClient, Logger, handleError, getUser, getUserById } from './api-layer';
-import { ObtainAllUsers } from './use-cases';
-import { GetUserById } from './use-cases';
+import { ObtainAllUsers, GetUserById } from './use-cases';
 import Ajv from 'ajv';
 import * as dotenv from 'dotenv';
 
@@ -30,7 +29,6 @@ const environmentVariables = (): Map<string, string | undefined> => {
 };
 
 const mapEnv: Map<string, string | undefined> = environmentVariables();
-
 const logger: Logger = new Logger(mapEnv);
 const databaseClient: DatabaseClient = new DatabaseClient(mapEnv);
 
@@ -50,13 +48,11 @@ const init = () => {
     server.setErrorHandler(handleError);
 
     // initialize dependency injection
-    const container = DIContainer(databaseClient.client, logger.log);
-    const useObtainAllUsers: ObtainAllUsers = container.get<ObtainAllUsers>(TYPES.ObtainAllUsers);
-    const useGetUserById: GetUserById = container.get<GetUserById>(TYPES.GetUserById);
+    const container = appContainer(databaseClient.client, logger.log);
 
     //routes register
-    server.register(getUser, useObtainAllUsers);
-    server.register(getUserById, useGetUserById);
+    server.register(getUser, container.get<ObtainAllUsers>(TYPES.ObtainAllUsers));
+    server.register(getUserById, container.get<GetUserById>(TYPES.GetUserById));
 
     return server;
 };

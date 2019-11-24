@@ -20,7 +20,7 @@ export default fp(async (server, service, next) => {
         service
             .obtainAllUsers()
             .then(res => {
-                request.log.info(res);
+                request.log.debug('response=', res);
                 reply.send(res);
             })
             .catch(error => {

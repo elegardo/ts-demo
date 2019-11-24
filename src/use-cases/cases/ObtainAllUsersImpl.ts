@@ -1,15 +1,11 @@
-import 'reflect-metadata';
-import { injectable, inject } from 'inversify';
 import { ObtainAllUsers } from './ObtainAllUsers';
 import { UserRepository } from '../../data-access';
 import { User } from '../entity/User';
-import { TYPES } from '../../inversify.types';
 
-@injectable()
 export class ObtainAllUsersImpl implements ObtainAllUsers {
     protected repository: UserRepository;
 
-    constructor(@inject(TYPES.UserRepository) repository: UserRepository) {
+    constructor(repository: UserRepository) {
         this.repository = repository;
     }
 

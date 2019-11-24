@@ -1,26 +1,21 @@
-import { Container } from 'inversify';
+import { Container, ContainerModule } from 'inversify';
 import { Client } from 'pg';
 import { Logger } from 'pino';
 import { TYPES } from './inversify.types';
+import { container as dataContainer } from './data-access';
+import { container as useContainer } from './use-cases';
 
-import { UserRepository } from './data-access/repository/UserRepository';
-import { UserRepositoryImpl } from './data-access/repository/UserRepositoryImpl';
-import { ObtainAllUsers } from './use-cases/cases/ObtainAllUsers';
-import { ObtainAllUsersImpl } from './use-cases/cases/ObtainAllUsersImpl';
-import { GetUserById } from './use-cases/cases/GetUserById';
-import { GetUserByIdImpl } from './use-cases/cases/GetUserByIdImpl';
+export const appContainer = (client: Client, logger: Logger): Container => {
+    const appContainer: Container = new Container({ skipBaseClassChecks: true });
 
-export const DIContainer = (client: Client, logger: Logger): Container => {
-    const DIContainer = new Container();
+    const thirdPartyDependencies = new ContainerModule(bind => {
+        bind<Client>(TYPES.Client).toConstantValue(client);
+        bind<Logger>(TYPES.Logger).toConstantValue(logger);
+    });
 
-    DIContainer.bind<Client>(TYPES.Client).toConstantValue(client);
-    DIContainer.bind<Logger>(TYPES.Logger).toConstantValue(logger);
+    appContainer.load(thirdPartyDependencies);
+    appContainer.load(dataContainer);
+    appContainer.load(useContainer);
 
-    DIContainer.bind<UserRepository>(TYPES.UserRepository).to(UserRepositoryImpl);
-
-    //Use cases
-    DIContainer.bind<ObtainAllUsers>(TYPES.ObtainAllUsers).to(ObtainAllUsersImpl);
-    DIContainer.bind<GetUserById>(TYPES.GetUserById).to(GetUserByIdImpl);
-
-    return DIContainer;
+    return appContainer;
 };
