@@ -5,7 +5,7 @@ import { ObtainAllUsers } from './cases/ObtainAllUsers';
 import { ObtainAllUsersImpl } from './cases/ObtainAllUsersImpl';
 import { GetUserById } from './cases/GetUserById';
 import { GetUserByIdImpl } from './cases/GetUserByIdImpl';
-import { UserRepository } from '../data-access';
+import { UserRepository } from '../dataAccess';
 
 @injectable()
 class A extends ObtainAllUsersImpl {

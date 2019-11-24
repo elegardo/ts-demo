@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { User } from '../../entity/User';
 import { ObtainAllUsersImpl } from '../ObtainAllUsersImpl';
-import { UserRepositoryImpl } from '../../../data-access/repository/UserRepositoryImpl';
+import { UserRepositoryImpl } from '../../../dataAccess/repository/UserRepositoryImpl';
 import sinon from 'sinon';
 
 describe('ObtainAllUsersImpl', () => {

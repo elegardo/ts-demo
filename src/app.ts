@@ -2,10 +2,12 @@
 import 'reflect-metadata';
 import fastify from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'http';
-import { appContainer } from './inversify.config';
+import { handleError, getUser, getUserById } from './apiLayer';
+import { ObtainAllUsers, GetUserById } from './useCases';
+import { DatabaseClient, Logger, Environment } from './utilities';
+import { InversifyContainer } from './inversify.config';
 import { TYPES } from './inversify.types';
-import { DatabaseClient, Logger, handleError, getUser, getUserById } from './api-layer';
-import { ObtainAllUsers, GetUserById } from './use-cases';
+
 import Ajv from 'ajv';
 import * as dotenv from 'dotenv';
 
@@ -16,21 +18,9 @@ if (process.env.NODE_ENV === 'dev') {
     }
 }
 
-const environmentVariables = (): Map<string, string | undefined> => {
-    const mapEnv: Map<string, string | undefined> = new Map<string, string | undefined>();
-    mapEnv.set('LOG_LEVEL', process.env.LOG_LEVEL);
-    mapEnv.set('DB_USER', process.env.DB_USER);
-    mapEnv.set('DB_HOST', process.env.DB_HOST);
-    mapEnv.set('DB_DATABASE', process.env.DB_DATABASE);
-    mapEnv.set('DB_PASSWORD', process.env.DB_PASSWORD);
-    mapEnv.set('DB_PORT', process.env.DB_PORT);
-
-    return mapEnv;
-};
-
-const mapEnv: Map<string, string | undefined> = environmentVariables();
-const logger: Logger = new Logger(mapEnv);
-const databaseClient: DatabaseClient = new DatabaseClient(mapEnv);
+const env: Environment = new Environment();
+const databaseClient: DatabaseClient = new DatabaseClient(env);
+const logger: Logger = new Logger(env);
 
 const init = () => {
     // schema options
@@ -42,13 +32,13 @@ const init = () => {
         allErrors: true,
     });
 
-    //create server fastify
+    // create server fastify
     const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({ logger: logger.log });
     server.setSchemaCompiler(schema => ajv.compile(schema));
     server.setErrorHandler(handleError);
 
     // initialize dependency injection
-    const container = appContainer(databaseClient.client, logger.log);
+    const container = InversifyContainer(databaseClient, logger);
 
     //routes register
     server.register(getUser, container.get<ObtainAllUsers>(TYPES.ObtainAllUsers));
@@ -61,19 +51,21 @@ const start = async () => {
     try {
         const server = init();
         await server.listen(3000, '0.0.0.0');
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        logger.log.error(error);
+        logger.log.error(Array.from(env.getAll()));
         process.exit(1);
     }
 };
 
-databaseClient.client
+databaseClient
     .connect()
     .then(() => {
-        console.log('Connected!');
+        logger.log.info('Database Connected!');
         start();
     })
     .catch(error => {
-        console.error(error.message);
+        logger.log.error(error.message);
+        logger.log.error(Array.from(env.getAll()));
         process.exit(1);
     });

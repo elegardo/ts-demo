@@ -1,8 +1,8 @@
 /* eslint-disable */
 import fp from 'fastify-plugin';
-import { userSchema } from '../schemas/users.schema';
+import { userSchema } from '../schemas/user.schema';
 
-const schemaUsers = {
+const opts = {
     schema: {
         response: {
             200: {
@@ -16,7 +16,7 @@ const schemaUsers = {
 export default fp(async (server, service, next) => {
     // Declare a route
 
-    server.get('/users', schemaUsers, (request, reply) => {
+    server.get('/users', opts, (request, reply) => {
         service
             .obtainAllUsers()
             .then(res => {

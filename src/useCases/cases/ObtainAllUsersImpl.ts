@@ -1,5 +1,5 @@
 import { ObtainAllUsers } from './ObtainAllUsers';
-import { UserRepository } from '../../data-access';
+import { UserRepository } from '../../dataAccess';
 import { User } from '../entity/User';
 
 export class ObtainAllUsersImpl implements ObtainAllUsers {

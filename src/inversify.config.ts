@@ -1,21 +1,20 @@
 import { Container, ContainerModule } from 'inversify';
-import { Client } from 'pg';
-import { Logger } from 'pino';
 import { TYPES } from './inversify.types';
-import { container as dataContainer } from './data-access';
-import { container as useContainer } from './use-cases';
+import { DatabaseClient, Logger } from './utilities';
+import { container as dataContainer } from './dataAccess';
+import { container as useContainer } from './useCases';
 
-export const appContainer = (client: Client, logger: Logger): Container => {
-    const appContainer: Container = new Container({ skipBaseClassChecks: true });
+export const InversifyContainer = (databaseClient: DatabaseClient, logger: Logger): Container => {
+    const InversifyContainer: Container = new Container({ skipBaseClassChecks: true });
 
-    const thirdPartyDependencies = new ContainerModule(bind => {
-        bind<Client>(TYPES.Client).toConstantValue(client);
+    const utilitiesContainer = new ContainerModule(bind => {
+        bind<DatabaseClient>(TYPES.DatabaseClient).toConstantValue(databaseClient);
         bind<Logger>(TYPES.Logger).toConstantValue(logger);
     });
 
-    appContainer.load(thirdPartyDependencies);
-    appContainer.load(dataContainer);
-    appContainer.load(useContainer);
+    InversifyContainer.load(utilitiesContainer);
+    InversifyContainer.load(dataContainer);
+    InversifyContainer.load(useContainer);
 
-    return appContainer;
+    return InversifyContainer;
 };
