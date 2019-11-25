@@ -16,11 +16,11 @@ export class GetUserByIdImpl implements GetUserById {
         return this.repository
             .findBy(id)
             .then(res => {
-                this.logger.log.info('[GetUserByIdImpl.getUserById]', id);
+                this.logger.log.info(`[GetUserByIdImpl.getUserById]{${id}}`);
                 return res;
             })
             .catch(error => {
-                this.logger.log.error('[GetUserByIdImpl.getUserById]', id, error.message);
+                this.logger.log.error(`[GetUserByIdImpl.getUserById]{${id}}`, error.message);
                 throw error;
             });
     }

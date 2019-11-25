@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { ContainerModule, injectable, inject } from 'inversify';
 import { TYPES } from '../inversify.types';
 import { ObtainAllUsers } from './cases/ObtainAllUsers';
