@@ -11,7 +11,7 @@ describe('ObtainAllUsersImpl', () => {
         }));
     });
 
-    it('obtainAllUsers.findAll is called once.', () => {
+    it('obtainAllUsers is called once.', () => {
         const mock = new MockRepository();
         const instance = new ObtainAllUsersImpl(mock);
 

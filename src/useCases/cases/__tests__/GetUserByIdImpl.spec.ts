@@ -16,7 +16,7 @@ describe('GetUserByIdImpl', () => {
         });
     });
 
-    it('GetUserByIdImpl.getUserById is called once.', () => {
+    it('getUserById is called once.', () => {
         const mockRepository = new MockRepository();
         const mockLogger = new MockLogger();
         const instance = new GetUserByIdImpl(mockLogger, mockRepository);
@@ -26,7 +26,7 @@ describe('GetUserByIdImpl', () => {
         expect(mockRepository.findBy).toHaveBeenCalled();
     });
 
-    it('GetUserByIdImpl.getUserById with id = 1 return one user with user.id = 1.', () => {
+    it('getUserById with id = 1 return one user with user.id = 1.', () => {
         const mockRepository = new MockRepository();
         const mockLogger = new MockLogger();
         const expectUser: User = { id: 1, name: 'name1', email: '' };
@@ -39,7 +39,7 @@ describe('GetUserByIdImpl', () => {
         });
     });
 
-    it('GetUserByIdImpl.getUserById throw Error when user will not exist.', () => {
+    it('getUserById throw Error when user will not exist.', () => {
         const mockRepository = new MockRepository();
         const mockLogger = new MockLogger();
         const expectError = new Error('Not Found');
