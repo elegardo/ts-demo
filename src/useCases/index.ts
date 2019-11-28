@@ -21,7 +21,7 @@ class B extends GetUserByIdImpl {
   }
 }
 
-const container = new ContainerModule(bind => {
+const container = new ContainerModule((bind) => {
   bind<ObtainAllUsers>(TYPES.ObtainAllUsers).to(A);
   bind<GetUserById>(TYPES.GetUserById).to(B);
 });

@@ -13,10 +13,10 @@ module.exports = {
     sourceType: 'module', // Allows for the use of imports
   },
   rules: {
-    indent: ['error', 2, { MemberExpression: 1 }],
+    'max-len': ['warn', { code: 80, ignoreUrls: true, ignoreTrailingComments: true }],
+    'indent': ['error', 2, { ImportDeclaration: 1 }],
     '@typescript-eslint/no-explicit-any': 'error',
     'no-multi-spaces': ['error', { ignoreEOLComments: true }],
-    'max-len': ['warn', { code: 80, ignoreUrls: true, ignoreTrailingComments: true }],
   },
   env: {
     'jest/globals': true,

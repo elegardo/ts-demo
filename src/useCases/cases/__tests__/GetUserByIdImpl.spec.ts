@@ -34,7 +34,7 @@ describe('GetUserByIdImpl', () => {
 
     const instance = new GetUserByIdImpl(mockLogger, mockRepository);
 
-    return instance.getUserById(1).then(res => {
+    return instance.getUserById(1).then((res) => {
       expect(res).toEqual(expectUser);
     });
   });
@@ -49,7 +49,7 @@ describe('GetUserByIdImpl', () => {
 
     const instance = new GetUserByIdImpl(mockLogger, mockRepository);
 
-    return instance.getUserById(1).catch(error => {
+    return instance.getUserById(1).catch((error) => {
       expect(error).toEqual(expectError);
     });
   });

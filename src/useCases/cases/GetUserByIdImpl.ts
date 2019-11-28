@@ -15,11 +15,11 @@ export class GetUserByIdImpl implements GetUserById {
   async getUserById(id: number): Promise<User> {
     return this.repository
       .findBy(id)
-      .then(res => {
+      .then((res) => {
         this.logger.log.info(`[GetUserByIdImpl.getUserById]{${id}}`);
         return res;
       })
-      .catch(error => {
+      .catch((error) => {
         this.logger.log.error(`[GetUserByIdImpl.getUserById]{${id}}`, error.message);
         throw error;
       });

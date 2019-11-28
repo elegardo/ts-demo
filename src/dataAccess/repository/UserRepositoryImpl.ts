@@ -13,10 +13,10 @@ export class UserRepositoryImpl implements UserRepository {
   async findAll(): Promise<UserModel[]> {
     return this._client
       .query('select * from users')
-      .then(response => {
+      .then((response) => {
         return response.rows;
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   }
@@ -24,13 +24,13 @@ export class UserRepositoryImpl implements UserRepository {
   async findBy(id: number): Promise<UserModel> {
     return this._client
       .query('select * from users where id = $1', [id])
-      .then(response => {
+      .then((response) => {
         if (!response.rows[0]) {
           throw new NotFoundError('Users not exist');
         }
         return response.rows[0];
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   }

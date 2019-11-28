@@ -7,7 +7,7 @@ import { container as useContainer } from './useCases';
 export const InversifyContainer = (databaseClient: DatabaseClient, logger: Logger): Container => {
   const InversifyContainer: Container = new Container({ skipBaseClassChecks: true });
 
-  const utilitiesContainer = new ContainerModule(bind => {
+  const utilitiesContainer = new ContainerModule((bind) => {
     bind<DatabaseClient>(TYPES.DatabaseClient).toConstantValue(databaseClient);
     bind<Logger>(TYPES.Logger).toConstantValue(logger);
   });

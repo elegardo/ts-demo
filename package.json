@@ -1,44 +1,51 @@
 {
-    "name": "ts-demo",
-    "version": "1.0.0",
-    "description": "",
-    "main": "app.ts",
-    "scripts": {
-        "start": "ts-node src/app.ts",
-        "dev": "NODE_ENV=dev nodemon",
-        "lint": "tsc --noEmit && eslint '*/**/*.{js,ts}' --quiet --fix",
-        "test": "npm run lint && jest --coverage"
-    },
-    "dependencies": {
-        "@types/pg": "^7.11.2",
-        "fastify": "^2.10.0",
-        "fastify-plugin": "^1.6.0",
-        "inversify": "^5.0.1",
-        "pg": "^7.12.1",
-        "reflect-metadata": "^0.1.13"
-    },
-    "devDependencies": {
-        "@types/jest": "^24.0.23",
-        "@types/node": "^12.12.7",
-        "@types/pino": "^5.8.13",
-        "@types/sinon": "^7.5.0",
-        "@typescript-eslint/eslint-plugin": "^2.7.0",
-        "@typescript-eslint/parser": "^2.7.0",
-        "dotenv": "^8.2.0",
-        "eslint": "^6.6.0",
-        "eslint-config-prettier": "^6.5.0",
-        "eslint-plugin-jest": "^23.0.4",
-        "eslint-plugin-prettier": "^3.1.1",
-        "jest": "^24.9.0",
-        "nodemon": "^1.19.4",
-        "pino-pretty": "^3.4.0",
-        "prettier": "^1.19.1",
-        "sinon": "^7.5.0",
-        "ts-jest": "^24.1.0",
-        "ts-node": "^8.5.0",
-        "typescript": "^3.7.2"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC"
+  "name": "ts-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.ts",
+  "scripts": {
+    "start": "ts-node src/app.ts",
+    "dev": "NODE_ENV=dev nodemon",
+    "test": "jest --coverage",
+    "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts,json}' --quiet --fix",
+    "format": "prettier --write \"src/**/*.+(js|ts|json|yml|yaml|md)\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run format"
+    }
+  },
+  "dependencies": {
+    "@types/pg": "^7.11.2",
+    "fastify": "^2.10.0",
+    "fastify-plugin": "^1.6.0",
+    "inversify": "^5.0.1",
+    "pg": "^7.12.1",
+    "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.7",
+    "@types/pino": "^5.8.13",
+    "@types/sinon": "^7.5.0",
+    "@typescript-eslint/eslint-plugin": "^2.7.0",
+    "@typescript-eslint/parser": "^2.7.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-jest": "^23.0.4",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.1.0",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.4",
+    "pino-pretty": "^3.4.0",
+    "prettier": "^1.19.1",
+    "sinon": "^7.5.0",
+    "ts-jest": "^24.1.0",
+    "ts-node": "^8.5.0",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

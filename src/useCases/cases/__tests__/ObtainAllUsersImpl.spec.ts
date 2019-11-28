@@ -27,7 +27,7 @@ describe('ObtainAllUsersImpl', () => {
 
     const instance = new ObtainAllUsersImpl(mock);
 
-    return instance.obtainAllUsers().then(res => {
+    return instance.obtainAllUsers().then((res) => {
       expect(res).toEqual(expectUsers);
     });
   });
@@ -41,7 +41,7 @@ describe('ObtainAllUsersImpl', () => {
 
     const instance = new ObtainAllUsersImpl(mock);
 
-    return instance.obtainAllUsers().catch(error => {
+    return instance.obtainAllUsers().catch((error) => {
       expect(error).toEqual(expectError);
     });
   });

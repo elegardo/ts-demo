@@ -28,7 +28,7 @@ describe('UserRepositoryImpl', () => {
 
     const instance = new UserRepositoryImpl(mock);
 
-    return instance.findAll().then(res => {
+    return instance.findAll().then((res) => {
       expect(res).toEqual(expectUsers);
     });
   });
@@ -61,7 +61,7 @@ describe('UserRepositoryImpl', () => {
 
     const instance = new UserRepositoryImpl(mock);
 
-    return instance.findBy(1).then(res => {
+    return instance.findBy(1).then((res) => {
       expect(res).toEqual(expectUser);
     });
   });
@@ -74,7 +74,7 @@ describe('UserRepositoryImpl', () => {
 
     const instance = new UserRepositoryImpl(mock);
 
-    return instance.findBy(1).catch(error => {
+    return instance.findBy(1).catch((error) => {
       expect(error).toEqual(expectError);
     });
   });

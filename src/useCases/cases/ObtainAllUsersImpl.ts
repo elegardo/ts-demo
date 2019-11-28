@@ -12,10 +12,10 @@ export class ObtainAllUsersImpl implements ObtainAllUsers {
   async obtainAllUsers(): Promise<User[]> {
     return this.repository
       .findAll()
-      .then(res => {
+      .then((res) => {
         return res;
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   }
