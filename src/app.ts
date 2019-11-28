@@ -33,7 +33,9 @@ const init = () => {
     });
 
     // create server fastify
-    const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({ logger: logger.log });
+    const server: fastify.FastifyInstance<Server, 
+                                            IncomingMessage, 
+                                            ServerResponse> = fastify({ logger: logger.log });
     server.setSchemaCompiler(schema => ajv.compile(schema));
     server.setErrorHandler(handleError);
 

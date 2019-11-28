@@ -9,21 +9,21 @@ import { Logger } from '../utilities';
 
 @injectable()
 class A extends ObtainAllUsersImpl {
-    constructor(@inject(TYPES.UserRepository) repository: UserRepository) {
-        super(repository);
-    }
+  constructor(@inject(TYPES.UserRepository) repository: UserRepository) {
+    super(repository);
+  }
 }
 
 @injectable()
 class B extends GetUserByIdImpl {
-    constructor(@inject(TYPES.Logger) logger: Logger, @inject(TYPES.UserRepository) repository: UserRepository) {
-        super(logger, repository);
-    }
+  constructor(@inject(TYPES.Logger) logger: Logger, @inject(TYPES.UserRepository) repository: UserRepository) {
+    super(logger, repository);
+  }
 }
 
 const container = new ContainerModule(bind => {
-    bind<ObtainAllUsers>(TYPES.ObtainAllUsers).to(A);
-    bind<GetUserById>(TYPES.GetUserById).to(B);
+  bind<ObtainAllUsers>(TYPES.ObtainAllUsers).to(A);
+  bind<GetUserById>(TYPES.GetUserById).to(B);
 });
 
 export { container, ObtainAllUsers, GetUserById };

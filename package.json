@@ -7,7 +7,7 @@
         "start": "ts-node src/app.ts",
         "dev": "NODE_ENV=dev nodemon",
         "lint": "tsc --noEmit && eslint '*/**/*.{js,ts}' --quiet --fix",
-        "test": "jest --coverage"
+        "test": "npm run lint && jest --coverage"
     },
     "dependencies": {
         "@types/pg": "^7.11.2",

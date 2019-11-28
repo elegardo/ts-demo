@@ -3,20 +3,20 @@ import { UserRepository } from '../../dataAccess';
 import { User } from '../entity/User';
 
 export class ObtainAllUsersImpl implements ObtainAllUsers {
-    protected repository: UserRepository;
+  protected repository: UserRepository;
 
-    constructor(repository: UserRepository) {
-        this.repository = repository;
-    }
+  constructor(repository: UserRepository) {
+    this.repository = repository;
+  }
 
-    async obtainAllUsers(): Promise<User[]> {
-        return this.repository
-            .findAll()
-            .then(res => {
-                return res;
-            })
-            .catch(error => {
-                throw error;
-            });
-    }
+  async obtainAllUsers(): Promise<User[]> {
+    return this.repository
+      .findAll()
+      .then(res => {
+        return res;
+      })
+      .catch(error => {
+        throw error;
+      });
+  }
 }
